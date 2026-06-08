@@ -1,9 +1,29 @@
 import { addToCart, updateCartCount } from "./utils/common.js";
 
+// ==========================================
+// DOM Selectors
+// ==========================================
+
+// Detail Tab DOM
 const detailTabMenus = document.querySelectorAll(".detail-tabs a");
 const detailTabContents = document.querySelectorAll(".detail-content");
+
+// Quantity DOM
+const quantityCtrl = document.querySelector(".quantity-control");
+const quantity = document.querySelector("#quantity");
+const addCart = document.querySelector("#addcart");
+
+// ==========================================
+// State & Constants
+// ==========================================
+
 let product = {};
 
+let currentQty = Number(quantity.value) || 1;
+
+// ==========================================
+// Functions & Core Logic
+// ==========================================
 export async function fetchProduct() {
   // console.log(location.href);
   // console.log(location.search);
@@ -109,6 +129,10 @@ function createRecommendList(all, category, id) {
   document.querySelector(".recommend-grid").innerHTML = recommendHTML.join("");
 }
 
+// ==========================================
+// Event Listeners
+// ==========================================
+
 // 상품 상세 Tab
 /*
 detailTabMenus를 클릭하면
@@ -120,7 +144,10 @@ detailTabMenus.forEach(menu => {
   menu.addEventListener("click", e => {
     e.preventDefault();
 
-    const href = menu.getAttribute("href");
+    const target = menu.getAttribute("href");
+    detailTabContents.forEach(content => {
+      content.style.display = target.includes(content.id) ? "block" : "none";
+    });
   });
 });
 
@@ -133,9 +160,6 @@ quantityCtrlEl 클릭했을 때, 클릭한 그 요소의 가까운 부모가 but
   아니라면
     currentQty를 1 증가
  */
-const quantityCtrl = document.querySelector(".quantity-control");
-const quantity = document.querySelector("#quantity");
-let currentQty = Number(quantity.value) || 1;
 quantityCtrl.addEventListener("click", e => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -153,11 +177,12 @@ quantityCtrl.addEventListener("click", e => {
 /*
 장바구니 담기 버튼을 클릭하면 현재 수량을 addToCart 함수에 인수를 넣어 실행
  */
-
-document.querySelector("#addcart").addEventListener("click", e => {
+addCart.addEventListener("click", e => {
   addToCart(product, Number(quantity.value));
 });
 
-// Initialize
+// ==========================================
+// Initialization & Execution
+// ==========================================
 fetchProduct();
 updateCartCount();
