@@ -1,5 +1,7 @@
 import { readCart, updateCartCount } from "./utils/common.js";
 
+const cartCountText = document.querySelector(".cart-count-text");
+const selectAllText = document.querySelector(".select-all-text");
 const cartList = document.querySelector(".cart-list");
 
 function renderCartItems() {
@@ -21,11 +23,17 @@ function renderCartItems() {
       <span>${p.qty}</span>
       <button type="button" aria-label="수량 늘리기">+</button>
     </div>
-    <button type="button" class="remove-item" aria-label="프리미엄 무선 블루투스 헤드폰 삭제"></button>
+    <button type="button" class="remove-item" aria-label="${p.title} 삭제"></button>
   </article>
   `,
   );
   cartList.innerHTML += cartHTML.join("");
+
+  cartCountText.textContent = `총 ${cartItems.length}개의 상품`;
+
+  // console.log(selectAllText.innerHTML);
+  // selectAllText.textContent = `전체선택 (${cartItems.length}/${cartItems.length})`;
+  // console.log(selectAllText.innerHTML);
 }
 
 renderCartItems();
