@@ -1,30 +1,47 @@
 import { addToCart, updateCartCount } from "./utils/common.js";
 
+// ==========================================
+// DOM Selectors
+// ==========================================
+
+// Product Grid DOM
 const productGrid = document.querySelector(".product-grid");
 
-// pagination
+// Pagination DOM
 const pager = document.querySelector(".pagination .pager");
 const pagerPrevBtn = document.querySelector(".pagination .prev");
 const pagerNextBtn = document.querySelector(".pagination .next");
+
+// Filter DOM
+const filteredCount = document.querySelector(".products-tools > span");
+const categoryFilter = document.querySelector("#category-filter");
+const priceFilter = document.querySelector("#price-filter");
+const brandFilter = document.querySelector("#brand-filter");
+
+// Sort DOM
+const sortSelect = document.querySelector("#sort");
+
+// ==========================================
+// State & Constants
+// ==========================================
+
+// Pagination State
 const countPerPage = 12;
 const pagerPerGroup = 5;
 let curPage = 1;
 let curGroup = 1;
 let paginationCount = 0;
 
-// filter
-const filteredCount = document.querySelector(".products-tools > span");
-let filteredData = [];
+// Filter State
 let allProducts = [];
-const categoryFilter = document.querySelector("#category-filter");
+let filteredData = [];
 let selectedCategories = [];
-const priceFilter = document.querySelector("#price-filter");
 let selectedPriceRange = "";
-const brandFilter = document.querySelector("#brand-filter");
 let selectedBrands = [];
 
-// sort
-const sortSelect = document.querySelector("#sort");
+// ==========================================
+// Functions & Core Logic
+// ==========================================
 
 // 상품 조회
 async function fetchProducts() {
@@ -208,14 +225,6 @@ function paginate(dataArray = [], page = 1) {
   return dataArray.slice(start, end);
 }
 
-pagerPrevBtn.addEventListener("click", e => {
-  e.preventDefault();
-  moveGroup(-1);
-});
-pagerNextBtn.addEventListener("click", e => {
-  e.preventDefault();
-  moveGroup(+1);
-});
 function moveGroup(dir) {
   curGroup += dir;
   curPage = (curGroup - 1) * 5 + 1;
@@ -233,6 +242,18 @@ function escHTML(string) {
     .replaceAll("'", "&apos;")
     .replaceAll('"', "&quot;");
 }
+
+// ==========================================
+// Event Listeners
+// ==========================================
+pagerPrevBtn.addEventListener("click", e => {
+  e.preventDefault();
+  moveGroup(-1);
+});
+pagerNextBtn.addEventListener("click", e => {
+  e.preventDefault();
+  moveGroup(+1);
+});
 
 sortSelect.addEventListener("change", e => {
   const selectedValue = sortSelect.value;
@@ -279,6 +300,8 @@ productGrid.addEventListener("click", e => {
   addToCart(product);
 });
 
-// Initialize
+// ==========================================
+// Initialization & Execution
+// ==========================================
 fetchProducts();
 updateCartCount();
