@@ -144,7 +144,10 @@ detailTabMenus.forEach(menu => {
   menu.addEventListener("click", e => {
     e.preventDefault();
 
-    const href = menu.getAttribute("href");
+    const target = menu.getAttribute("href");
+    detailTabContents.forEach(content => {
+      content.style.display = target.includes(content.id) ? "block" : "none";
+    });
   });
 });
 
