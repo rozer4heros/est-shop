@@ -48,6 +48,7 @@ export function addToCart(product, qty = 1) {
       id: product.id,
       title: product.title,
       brand: product.brand,
+      price: product.price,
       thumb: product.thumbnail,
       qty: qty,
     });
