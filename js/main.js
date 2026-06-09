@@ -185,8 +185,6 @@ function createPagination(total) {
   paginationCount = Math.ceil(total / countPerPage);
   const pagerGroupCount = Math.ceil(paginationCount / pagerPerGroup);
 
-  // 1, 2, 3, 4, 5 => 1
-  // 6, 7, 8, 9, 10 => 6
   const startPage = (curGroup - 1) * pagerPerGroup + 1;
   const endPage = Math.min(startPage + pagerPerGroup - 1, paginationCount);
 
