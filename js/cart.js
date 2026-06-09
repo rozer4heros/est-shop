@@ -1,15 +1,30 @@
-import { readCart, updateCartCount } from "./utils/common.js";
+import { readCart, writeCart, updateCartCount } from "./utils/common.js";
+
+// ==========================================
+// DOM Selectors
+// ==========================================
 
 const cartCountText = document.querySelector(".cart-count-text");
-const selectAllText = document.querySelector(".select-all-text");
+const selectAllText = document.querySelector(".select-all");
 const cartList = document.querySelector(".cart-list");
 
+// ==========================================
+// State & Constants
+// ==========================================
+
+const cartItems = readCart();
+
+// ==========================================
+// Functions & Core Logic
+// ==========================================
+
 function renderCartItems() {
-  const cartItems = readCart();
   const cartHTML = cartItems.map(
     p => `
   <article class="cart-item">
-    <span class="item-check"><span class="check-box" aria-hidden="true"></span></span>
+    <label class="item-check">
+      <input type="checkbox" checked />
+    </label>
     <div class="cart-thumb">
       <img src="${p.thumb}" alt="${p.title}" />
     </div>
@@ -36,5 +51,19 @@ function renderCartItems() {
   // console.log(selectAllText.innerHTML);
 }
 
+// ==========================================
+// Event Listeners
+// ==========================================
+
+// ==========================================
+// Initialization & Execution
+// ==========================================
+
 renderCartItems();
 updateCartCount();
+
+/*
+수량 변경/제거
+-> 로컬 스토리지 값 업데이트
+-> 상품 금액, 결제 금액 변경
+ */

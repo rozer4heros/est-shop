@@ -246,6 +246,7 @@ function escHTML(string) {
 // ==========================================
 // Event Listeners
 // ==========================================
+
 pagerPrevBtn.addEventListener("click", e => {
   e.preventDefault();
   moveGroup(-1);
@@ -303,5 +304,6 @@ productGrid.addEventListener("click", e => {
 // ==========================================
 // Initialization & Execution
 // ==========================================
+
 fetchProducts();
 updateCartCount();

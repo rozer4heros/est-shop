@@ -24,6 +24,7 @@ let currentQty = Number(quantity.value) || 1;
 // ==========================================
 // Functions & Core Logic
 // ==========================================
+
 export async function fetchProduct() {
   // console.log(location.href);
   // console.log(location.search);
@@ -184,5 +185,6 @@ addCart.addEventListener("click", e => {
 // ==========================================
 // Initialization & Execution
 // ==========================================
+
 fetchProduct();
 updateCartCount();

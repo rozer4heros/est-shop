@@ -47,8 +47,8 @@ export function addToCart(product, qty = 1) {
     cart.push({
       id: product.id,
       title: product.title,
-      brand: product.brand,
       price: product.price,
+      brand: product.brand,
       thumb: product.thumbnail,
       qty: qty,
     });
