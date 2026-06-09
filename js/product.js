@@ -24,15 +24,11 @@ let currentQty = Number(quantity.value) || 1;
 // ==========================================
 // Functions & Core Logic
 // ==========================================
-export async function fetchProduct() {
-  // console.log(location.href);
-  // console.log(location.search);
 
+export async function fetchProduct() {
   let params = new URLSearchParams(location.search);
-  // console.log(params.get("id"));
 
   const productID = params.get("id");
-  // console.log(typeof productID);
   if (!productID) {
     alert("잘못된 접근입니다. 홈으로 이동합니다.");
     location.href = "./index.html";
@@ -49,6 +45,7 @@ export async function fetchProduct() {
       alert("존재하지 않는 상품입니다. 홈으로 이동합니다.");
       location.href = "./index.html";
     }
+
     createContent(product);
     createRecommendList(data.products, product.category, Number(productID));
   } catch (e) {
@@ -134,12 +131,6 @@ function createRecommendList(all, category, id) {
 // ==========================================
 
 // 상품 상세 Tab
-/*
-detailTabMenus를 클릭하면
-  target에 클릭한 그 요소의 href 속성의 값을 할당
-  모든 detailTabContent는 안보이고
-  target에 해당하는 요소에 active 추가
- */
 detailTabMenus.forEach(menu => {
   menu.addEventListener("click", e => {
     e.preventDefault();
@@ -152,14 +143,6 @@ detailTabMenus.forEach(menu => {
 });
 
 // 상품 수량 변경하기
-/*
-quantityCtrlEl 클릭했을 때, 클릭한 그 요소의 가까운 부모가 button이라면
-  변수 currentQty quantityEl의 내용을 할당
-  그 버튼의 내용이 - 와 같다면
-    currentQty를 1 차감
-  아니라면
-    currentQty를 1 증가
- */
 quantityCtrl.addEventListener("click", e => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -174,9 +157,6 @@ quantityCtrl.addEventListener("click", e => {
 });
 
 // 장바구니 담기
-/*
-장바구니 담기 버튼을 클릭하면 현재 수량을 addToCart 함수에 인수를 넣어 실행
- */
 addCart.addEventListener("click", e => {
   addToCart(product, Number(quantity.value));
 });
@@ -184,5 +164,6 @@ addCart.addEventListener("click", e => {
 // ==========================================
 // Initialization & Execution
 // ==========================================
+
 fetchProduct();
 updateCartCount();
