@@ -18,6 +18,7 @@ const totalAmount = document.querySelector(".order-total strong");
 
 let cart = readCart();
 let cartHTML = [];
+let selectedIds = new Set();
 
 // ==========================================
 // Functions & Core Logic
@@ -40,7 +41,7 @@ function renderCart() {
       p => `
         <article class="cart-item" data-id="${p.id}">
           <label class="item-check">
-            <input type="checkbox" />
+            <input type="checkbox" ${selectedIds.has(p.id) ? "checked" : ""} />
           </label>
           <div class="cart-thumb">
             <img src="${p.thumb}" alt="${p.title}" />
@@ -60,7 +61,6 @@ function renderCart() {
       `,
     );
   }
-  // cartList.innerHTML += cartHTML.join("");
   cartList.insertAdjacentHTML("beforeend", cartHTML.join(""));
   updateSelectState();
 }
@@ -71,7 +71,6 @@ function updateCartCountFunc() {
 }
 
 // 상품 금액, 결제 금액 업데이트
-// reduce 카트 항목들마다 수량*가격 + 수량*가격
 function updateTotalAmount() {
   const sum = cart.reduce((total, item) => total + item.price * item.qty, 0);
   productAmount.textContent = `${sum.toFixed(2)}$`;
@@ -85,9 +84,16 @@ function updateSelectState() {
 
   // 모두 체크시, 전체 선택 부분 체크 true
   selectAll.querySelector("input").checked = checkedCount > 0 && checkedCount === checkBoxes.length ? true : false;
+
+  selectedIds = new Set(getCheckedIds());
 }
 function getCheckBoxes() {
   return [...cartList.querySelectorAll(".cart-item input")];
+}
+function getCheckedIds() {
+  return getCheckBoxes()
+    .filter(cb => cb.checked)
+    .map(cb => Number(cb.closest(".cart-item").dataset.id));
 }
 
 function saveCart() {
@@ -126,15 +132,6 @@ cartList.addEventListener("click", e => {
 
 // 체크박스 클릭
 selectAll.querySelector("input").addEventListener("change", e => {
-  /*
-  if (e.target.checked) {
-    getCheckBoxes().forEach(cb => {
-      cb.checked = true;
-    });
-  } else {
-    cb.checked = false;
-  }
-  */
   getCheckBoxes().forEach(cb => {
     cb.checked = e.target.checked ? true : false;
   });
@@ -148,17 +145,9 @@ cartList.addEventListener("change", e => {
 
 // 선택 삭제
 selectDeleteBtn.addEventListener("click", e => {
-  /*
-  cart 수정
-    체크된 상품의 id 파악 - 변수명 checkedIds
-    cart에서 id와 일치하는 요소를 제외
-  saveCart 실행, renderCart 실행
-   */
-  const checkedIds = getCheckBoxes()
-    .filter(cb => cb.checked)
-    .map(cb => Number(cb.closest(".cart-item").dataset.id));
-
+  const checkedIds = getCheckedIds();
   if (checkedIds.length === 0) return;
+
   cart = cart.filter(p => !checkedIds.includes(p.id));
 
   saveCart();
@@ -173,9 +162,3 @@ renderCart();
 updateCartCount();
 updateCartCountFunc();
 updateTotalAmount();
-
-/*
-수량 변경/제거
--> 로컬 스토리지 값 업데이트
--> 상품 금액, 결제 금액 변경
- */
